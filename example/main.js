@@ -1,5 +1,3 @@
-
-
 window.onload = function(){
     class List extends component
     {
@@ -44,5 +42,4 @@ window.onload = function(){
     }
 
     customElements.define('list-exemple', List);
-
 }
