@@ -1,5 +1,5 @@
 window.onload = function(){
-    class List extends component
+    class Counter extends KamiComponent
     {
         constructor()
         {
@@ -18,14 +18,19 @@ window.onload = function(){
             this.wrapper.querySelector('#add').addEventListener('click',()=>{
                 this.props.counter ++;
             })
+
+            this.wrapper.querySelector('#remove').addEventListener('click',()=>{
+                this.props.counter --;
+            })
         }
 
         renderHtml()
         {
             return `
-                <div class="list">
-                    <button id="add">+</button>
-                    <div id="counter">${this.props.counter}</div>
+                <div class="counter">
+                    <button class="counter__btn" id="add">+</button>
+                    <button class="counter__btn" id="remove">-</button>
+                    <div class="counter__text" id="counter">${this.props.counter}</div>
                 </div>
             `;        
         }
@@ -34,12 +39,27 @@ window.onload = function(){
         {
             return `
 
-                .list{
+                .counter{
                     display: flex;
+                    width: 100%;
+                    height: 100vh;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .counter__btn{
+                    margin: 5px;
+                    padding: 10px;
+                }
+
+                .counter__text{
+                    font-size: 30px;
+                    font-family: sans-serif;
+                    margin: 10px;
                 }
             `;
         }
     }
 
-    customElements.define('list-exemple', List);
+    customElements.define('counter-exemple', Counter);
 }

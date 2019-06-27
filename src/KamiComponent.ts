@@ -1,171 +1,231 @@
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
 // Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
-// import "core-js/fn/array.find"
-require("@webcomponents/webcomponentsjs/custom-elements-es5-adapter");
-require("@webcomponents/webcomponentsjs/webcomponents-bundle");
-var Component = /** @class */ (function (_super) {
-    __extends(Component, _super);
-    function Component() {
-        var _this = 
+  // import "core-js/fn/array.find"
+import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
+
+abstract class KamiComponent extends HTMLElement {
+
+    protected url: URL;
+    protected shadow: ShadowRoot;
+    protected wrapper: HTMLDivElement;
+    protected styleScope: HTMLStyleElement;
+    protected isObservable: Boolean;
+    protected props: any;
+
+   
+    constructor() {
+
         // Always call super first in constructor
-        _super.call(this) || this;
-        _this.isObservable = false;
+        super();
+
+        this.isObservable = false;
+
         /**
-         * @property {URL} url - the current browser url
+         * @property {URL} url - the current browser url 
          */
-        _this.url = new URL(window.location.href);
+        this.url = new URL(window.location.href);
+        
         //init props from children
-        _this.setProperties();
+        this.setProperties();
+
         /**
          * @property {HTMLElement} shadow - the shadow root of your component
          */
-        _this.shadow = _this.attachShadow({ mode: 'open' });
+        this.shadow = this.attachShadow({mode: 'open'}); 
+
         /**
          * Use this dom to get children.
          * Call the querySelector directly from this property.
          * @property {HTMLDivElement} wrapper - main dom of your component
          */
-        _this.wrapper = document.createElement('div');
+        this.wrapper = document.createElement('div');
+
         /**
          * @property {HTMLStyleElement}  styleScope - style dom
          */
-        _this.styleScope = document.createElement('style');
+        this.styleScope = document.createElement('style');
+
         //set the type for the style dom
-        _this.styleScope.type = 'text/css';
+        this.styleScope.type = 'text/css';
+
+
         //generate the style and dom of your component
-        _this.render();
+        this.render();
+
         //append your component to the shadow root
         //display the component
-        _this.initComponent();
+        this.initComponent();
+
         //init all your event listener
-        _this.initEventListener();
-        return _this;
+        this.initEventListener();
+        
     }
+
+    /**
+     * Overide this method to add your event listener.
+     * This method will be call if you use the observe() method. 
+     */
+    abstract initEventListener() :void
+
+    /**
+     * This methode it use be the child methode to pass
+     * all the properties which need the parent to work
+     */
+    abstract setProperties() : void
+
+    /**
+     * This methode it use be the child methode to pass
+     * the html template for the shadows root
+     */
+    abstract renderHtml() : string
+    
+
+    /**
+     * This methode it use be the child methode to pass
+     * the style template for the shadows root
+     */
+    abstract renderStyle() : string
+
+
     /**
      * This methode update your attribute set in the props object.
      * @param {String} name - the attribute name
      * @param {String} oldValue - the old value
      * @param {String} newValue - the new value
      */
-    Component.prototype.attributeChangedCallback = function (name, oldValue, newValue) {
-        if (this.isObservable) {
+    attributeChangedCallback(name: string, oldValue: any, newValue: any) : void {
+        if(this.isObservable){
             this.props[name] = newValue;
         }
-    };
+    }
+
     /**
      * This methode will observer the target which you have pass in param.
      * When one of the property of your target is set the render() and initEventlistener() will be call.
      * Which reload dynamicaly your component.
      * @param {Object} target - object which will be observed
-     * @returns {ProxyConstructor}
+     * @returns {ProxyConstructor}  
      */
-    Component.prototype.observe = function (target) {
-        var _this = this;
+    observe(target: Object) : ProxyConstructor
+    {
         this.isObservable = true;
+
         //create a proxy to observe your props
-        return new Proxy(target, {
+        return new Proxy(target,{
             //just return your props
-            get: function (obj, prop) {
+            get: (obj: any, prop: string) => {
                 return obj[prop];
             },
             //rerender your component and his listener
-            set: function (obj, prop, value) {
+            set: (obj, prop, value) => {
                 //set the props value
                 obj[prop] = value;
+
                 //rerender the component
-                _this.render();
+                this.render();
+
                 //reload listener
-                _this.initEventListener();
+                this.initEventListener();
+                
                 return true;
             }
-        });
-    };
+        }); 
+    }
+
     /**
      * Generate the dom structure and style of your component.
      * It will update the wrapper and styleScope property.
      * @returns {Component} this
      */
-    Component.prototype.render = function () {
+    render() : this
+    {
         //reload dom structure
         this.wrapper.innerHTML = this.renderHtml();
+        
         //reload style
-        this.styleScope.textContent = this.renderStyle();
+        this.styleScope.textContent  = this.renderStyle();
+
         return this;
-    };
+    }
+
     /**
      * Init the web component
      */
-    Component.prototype.initComponent = function () {
+    initComponent() : void
+    {
         this.shadow.appendChild(this.styleScope);
         this.shadow.appendChild(this.wrapper);
-    };
+    }
+
     /**
      * Convert a String into a boolean
      * @param {String} val - the data to convert in bool
-     * @returns {Boolean} the boolean converted
+     * @returns {Boolean} the boolean converted 
      */
-    Component.prototype.toBoolean = function (val) {
-        var a = {
+    toBoolean(val: any) : boolean
+    {
+        let a: any = {
             'true': true,
             'false': false
         };
+
         return a[val];
-    };
+    }
+
     /**
      * Get a param form the url.
      * @param {String} param - the param name
      */
-    Component.prototype.getUrlParam = function (param) {
+    getUrlParam(param: string) : string | null
+    {
         return this.url.searchParams.get(param);
-    };
+    }
+
     /**
      * Set or update the value of a param into the browser url.
-     * @param {Object} object
-     * @param {String} object.param - the param name
-     * @param {String} object.value - the value
+     * @param {Object} object 
+     * @param {String} object.param - the param name 
+     * @param {String} object.value - the value 
      * @returns {Component} this
      */
-    Component.prototype.setUrlParam = function (param, value) {
+    setUrlParam(param: string, value: string) : this
+    {
         //boolean to check if a update url is needed
-        var newUrl = false;
-        if (value.toString() != '') {
+        let newUrl = false;
+        
+        if(value.toString() != ''){
             //check if the param already exist
             this.getUrlParam(param) ?
                 //update the param
-                this.url.searchParams.set(param, value) :
+                this.url.searchParams.set(param,value) :
                 //add the param
-                this.url.searchParams.append(param, value);
+                this.url.searchParams.append(param,value);
+            
             //update url is needed
             newUrl = true;
         }
+
         //check if value param is empty
-        if (value.toString() == '' && this.getUrlParam(param) && !newUrl) {
+        if(value.toString() == '' && this.getUrlParam(param) && !newUrl){
+
             //delete a param
             this.url.searchParams.delete(param);
+
             //update url is needed
             newUrl = true;
         }
-        if (newUrl == true) {
+
+        if(newUrl == true){
             //update the browser url
             window.history.pushState({}, '', this.url.toString());
         }
+
         return this;
-    };
-    return Component;
-}(HTMLElement));
-exports.default = Component;
-//# sourceMappingURL=Component.js.map
+    }
+
+
+}
+
+
+
+export default KamiComponent

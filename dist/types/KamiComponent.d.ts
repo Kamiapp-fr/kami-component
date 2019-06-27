@@ -1,6 +1,6 @@
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
-declare abstract class Component extends HTMLElement {
+declare abstract class KamiComponent extends HTMLElement {
     protected url: URL;
     protected shadow: ShadowRoot;
     protected wrapper: HTMLDivElement;
@@ -73,4 +73,4 @@ declare abstract class Component extends HTMLElement {
      */
     setUrlParam(param: string, value: string): this;
 }
-export default Component;
+export default KamiComponent;

@@ -1,4 +1,4 @@
-import Component from "../src/Component"
+import KamiComponent from "../src/KamiComponent"
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
@@ -28,7 +28,7 @@ describe("Component test", () => {
 })
 
 //Simple component for the test
-class List extends Component
+class List extends KamiComponent
 {
     protected btn: HTMLElement | null;
     

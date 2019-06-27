@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
-    (global.component = factory());
+    (global.KamiComponent = factory());
 }(this, (function () { 'use strict';
 
     /*! *****************************************************************************
@@ -314,9 +314,9 @@
     arguments)},g.revokeObjectURL=function(a){v.revokeObjectURL(a);});a.URL=g;}})(window);Object.getOwnPropertyDescriptor(Node.prototype,"baseURI")||Object.defineProperty(Node.prototype,"baseURI",{get:function(){var a=(this.ownerDocument||this).querySelector("base[href]");return a&&a.href||window.location.href},configurable:!0,enumerable:!0});var ph=document.createElement("style");ph.textContent="body {transition: opacity ease-in 0.2s; } \nbody[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } \n";var qh=document.querySelector("head");qh.insertBefore(ph,qh.firstChild);var rh=window.customElements,sh=!1,th=null;rh.polyfillWrapFlushCallback&&rh.polyfillWrapFlushCallback(function(a){th=a;sh&&a();});function uh(){window.HTMLTemplateElement.bootstrap&&window.HTMLTemplateElement.bootstrap(window.document);th&&th();sh=!0;window.WebComponents.ready=!0;document.dispatchEvent(new CustomEvent("WebComponentsReady",{bubbles:!0}));}
     "complete"!==document.readyState?(window.addEventListener("load",uh),window.addEventListener("DOMContentLoaded",function(){window.removeEventListener("load",uh);uh();})):uh();}).call(commonjsGlobal);
 
-    var Component = /** @class */ (function (_super) {
-        __extends(Component, _super);
-        function Component() {
+    var KamiComponent = /** @class */ (function (_super) {
+        __extends(KamiComponent, _super);
+        function KamiComponent() {
             var _this = 
             // Always call super first in constructor
             _super.call(this) || this;
@@ -358,7 +358,7 @@
          * @param {String} oldValue - the old value
          * @param {String} newValue - the new value
          */
-        Component.prototype.attributeChangedCallback = function (name, oldValue, newValue) {
+        KamiComponent.prototype.attributeChangedCallback = function (name, oldValue, newValue) {
             if (this.isObservable) {
                 this.props[name] = newValue;
             }
@@ -370,7 +370,7 @@
          * @param {Object} target - object which will be observed
          * @returns {ProxyConstructor}
          */
-        Component.prototype.observe = function (target) {
+        KamiComponent.prototype.observe = function (target) {
             var _this = this;
             this.isObservable = true;
             //create a proxy to observe your props
@@ -396,7 +396,7 @@
          * It will update the wrapper and styleScope property.
          * @returns {Component} this
          */
-        Component.prototype.render = function () {
+        KamiComponent.prototype.render = function () {
             //reload dom structure
             this.wrapper.innerHTML = this.renderHtml();
             //reload style
@@ -406,7 +406,7 @@
         /**
          * Init the web component
          */
-        Component.prototype.initComponent = function () {
+        KamiComponent.prototype.initComponent = function () {
             this.shadow.appendChild(this.styleScope);
             this.shadow.appendChild(this.wrapper);
         };
@@ -415,7 +415,7 @@
          * @param {String} val - the data to convert in bool
          * @returns {Boolean} the boolean converted
          */
-        Component.prototype.toBoolean = function (val) {
+        KamiComponent.prototype.toBoolean = function (val) {
             var a = {
                 'true': true,
                 'false': false
@@ -426,7 +426,7 @@
          * Get a param form the url.
          * @param {String} param - the param name
          */
-        Component.prototype.getUrlParam = function (param) {
+        KamiComponent.prototype.getUrlParam = function (param) {
             return this.url.searchParams.get(param);
         };
         /**
@@ -436,7 +436,7 @@
          * @param {String} object.value - the value
          * @returns {Component} this
          */
-        Component.prototype.setUrlParam = function (param, value) {
+        KamiComponent.prototype.setUrlParam = function (param, value) {
             //boolean to check if a update url is needed
             var newUrl = false;
             if (value.toString() != '') {
@@ -462,10 +462,10 @@
             }
             return this;
         };
-        return Component;
+        return KamiComponent;
     }(HTMLElement));
 
-    return Component;
+    return KamiComponent;
 
 })));
-//# sourceMappingURL=component.umd.js.map
+//# sourceMappingURL=KamiComponent.umd.js.map
