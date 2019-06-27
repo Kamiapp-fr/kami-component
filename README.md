@@ -5,8 +5,7 @@ This lib is a simple helper to create web component.
 
 ## Getting Started
 
-Into the getting started, you will see the code of a counter component.
-This is the result :
+>Into the getting started, you will see the code of a counter component.
 
 <p align="center">
   <img  src="https://raw.githubusercontent.com/EmilienLeroy/kami-component/master/example/counter.gif">
@@ -22,6 +21,8 @@ npm install --save kami-component
 
 After just import it and extend your class with this.
 
+
+> Counter.js
 ```js
 import KamiComponent from 'kami-component'
 
@@ -97,6 +98,7 @@ class Counter extends KamiComponent
 
 To declare you component, just import your component into your *index.js* file and use the *customElements.define()* methode. See the example bellow.
 
+>index.js
 ```js
 import Counter from "./Counter";
 
@@ -113,7 +115,7 @@ And just extend your component with this class.
 At the end of your js you need to declare your component with the *customElements.define()* methode.
 See the example bellow. 
 
-
+>index.html
 ```html
 <body>
     <list-exemple></list-exemple>
@@ -122,6 +124,7 @@ See the example bellow.
 <script src="main.js"></script>
 ```
 
+>main.js
 ```js
 window.onload = function(){
     //a simple counter
