@@ -1,4 +1,4 @@
-# kami-component
+# `kami-component`
 
 A simple abstract class to create web compenent.
 This lib is a simple helper to create web component.
@@ -8,7 +8,7 @@ This lib is a simple helper to create web component.
 >Into the getting started, you will see the code of a counter component.
 
 <p align="center">
-  <img  src="https://raw.githubusercontent.com/EmilienLeroy/kami-component/master/example/counter.gif">
+  <img  src="https://emilienleroy.fr/assets/counter.gif">
 </p>
 
 ### ES6
@@ -199,3 +199,7 @@ window.onload = function(){
     customElements.define('counter-exemple', Counter);
 }
 ```
+
+## Contribute
+
+We would love you for the contribution to ``kami-component`` project, check the ``CONTRIBUTING`` file for more info.
