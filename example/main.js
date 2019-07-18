@@ -6,6 +6,10 @@ window.onload = function(){
             super();
         }
 
+        static get tag(){
+            return 'counter-exemple';
+        }
+
         setProperties()
         {
             this.props = this.observe({
@@ -61,5 +65,5 @@ window.onload = function(){
         }
     }
 
-    customElements.define('counter-exemple', Counter);
+    customElements.define(Counter.tag, Counter);
 }

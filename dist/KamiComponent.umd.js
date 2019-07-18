@@ -352,6 +352,16 @@
             _this.initEventListener();
             return _this;
         }
+        Object.defineProperty(KamiComponent, "tag", {
+            get: function () { throw new Error("Your component should have a tag !"); },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Overide this method to add your event listener.
+         * This method will be call if you use the observe() method.
+         */
+        KamiComponent.prototype.initEventListener = function () { };
         /**
          * This methode update your attribute set in the props object.
          * @param {String} name - the attribute name

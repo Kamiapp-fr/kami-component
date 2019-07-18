@@ -1,6 +1,7 @@
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 declare abstract class KamiComponent extends HTMLElement {
+    static readonly tag: void;
     protected url: URL;
     protected shadow: ShadowRoot;
     protected wrapper: HTMLDivElement;
@@ -12,7 +13,7 @@ declare abstract class KamiComponent extends HTMLElement {
      * Overide this method to add your event listener.
      * This method will be call if you use the observe() method.
      */
-    abstract initEventListener(): void;
+    protected initEventListener(): void;
     /**
      * This methode it use be the child methode to pass
      * all the properties which need the parent to work
