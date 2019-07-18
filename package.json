@@ -1,6 +1,6 @@
 {
   "name": "kami-component",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "keywords": [],
   "main": "dist/KamiComponent.umd.js",
@@ -12,7 +12,7 @@
   "author": "Leroy Emilien <eleroy@savoy-international.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/EmilienLeroy/kami-component"
   },
   "license": "MIT",
   "engines": {
