@@ -54,6 +54,7 @@ declare abstract class KamiComponent extends HTMLElement {
      * Init the web component
      */
     initComponent(): void;
+    protected createElement(html: string): Element | null;
     /**
      * Convert a String into a boolean
      * @param {String} val - the data to convert in bool

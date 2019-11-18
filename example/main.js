@@ -10,6 +10,18 @@ window.onload = function(){
             return 'counter-exemple';
         }
 
+        get add(){
+            return this.wrapper.querySelector('#add');
+        }
+
+        get remove(){
+            return this.wrapper.querySelector('#remove');
+        }
+
+        get counter(){
+            return this.wrapper.querySelector('.counter');
+        }
+
         setProperties()
         {
             this.props = this.observe({
@@ -19,13 +31,9 @@ window.onload = function(){
 
         initEventListener()
         {
-            this.wrapper.querySelector('#add').addEventListener('click',()=>{
-                this.props.counter ++;
-            })
-
-            this.wrapper.querySelector('#remove').addEventListener('click',()=>{
-                this.props.counter --;
-            })
+            this.add.addEventListener('click',()=>{ this.props.counter ++; })
+            this.remove.addEventListener('click',()=>{ this.props.counter --; })
+            this.counter.append(this.createElement(`<div class="counter__text">kami-counter</div>`));
         }
 
         renderHtml()
