@@ -319,7 +319,7 @@ var KamiComponent = /** @class */ (function (_super) {
          * @property {URL} url - the current browser url
          */
         _this.url = new URL(window.location.href);
-        //init props from children
+        // init props from children
         _this.setProperties();
         /**
          * @property {HTMLElement} shadow - the shadow root of your component
@@ -335,19 +335,37 @@ var KamiComponent = /** @class */ (function (_super) {
          * @property {HTMLStyleElement}  styleScope - style dom
          */
         _this.styleScope = document.createElement('style');
-        //set the type for the style dom
+        // set the type for the style dom
+        // tslint:disable-next-line: deprecation
         _this.styleScope.type = 'text/css';
-        //generate the style and dom of your component
+        // generate the style and dom of your component
         _this.render();
-        //append your component to the shadow root
-        //display the component
+        // append your component to the shadow root
+        // display the component
         _this.initComponent();
-        //init all your event listener
+        // init all your event listener
         _this.initEventListener();
         return _this;
     }
     Object.defineProperty(KamiComponent, "tag", {
-        get: function () { throw new Error("Your component should have a tag !"); },
+        /**
+         * You should override this getter to return your own tag name for your component.
+         * @example
+         * // counter.js
+         * static get tag(){
+         *    return 'counter-example';
+         * }
+         *
+         * @example
+         * // index.html
+         * customElements.define(Counter.tag, Counter);
+         *
+         * @static
+         * @property {string} tag - tag name
+         */
+        get: function () {
+            throw new Error('Your component should have a tag !');
+        },
         enumerable: true,
         configurable: true
     });
@@ -355,7 +373,11 @@ var KamiComponent = /** @class */ (function (_super) {
      * Overide this method to add your event listener.
      * This method will be call if you use the observe() method.
      */
-    KamiComponent.prototype.initEventListener = function () { };
+    KamiComponent.prototype.initEventListener = function () {
+        /**
+         * Init your listener here.
+         */
+    };
     /**
      * This methode update your attribute set in the props object.
      * @param {String} name - the attribute name
@@ -377,19 +399,19 @@ var KamiComponent = /** @class */ (function (_super) {
     KamiComponent.prototype.observe = function (target) {
         var _this = this;
         this.isObservable = true;
-        //create a proxy to observe your props
+        // create a proxy to observe your props
         return new Proxy(target, {
-            //just return your props
+            // just return your props
             get: function (obj, prop) {
                 return obj[prop];
             },
-            //rerender your component and his listener
+            // rerender your component and his listener
             set: function (obj, prop, value) {
-                //set the props value
+                // set the props value
                 obj[prop] = value;
-                //rerender the component
+                // rerender the component
                 _this.render();
-                //reload listener
+                // reload listener
                 _this.initEventListener();
                 return true;
             }
@@ -401,9 +423,9 @@ var KamiComponent = /** @class */ (function (_super) {
      * @returns {Component} this
      */
     KamiComponent.prototype.render = function () {
-        //reload dom structure
+        // reload dom structure
         this.wrapper.innerHTML = this.renderHtml();
-        //reload style
+        // reload style
         this.styleScope.textContent = this.renderStyle();
         return this;
     };
@@ -415,14 +437,28 @@ var KamiComponent = /** @class */ (function (_super) {
         this.shadow.appendChild(this.wrapper);
     };
     /**
+     * This method convert your string to an html element like the *document.createElement()* method.
+     * There are a litte diff with this. You should pass directly the template of you element.
+     * @example
+     * this.createElement(`<div id="new" class="test">your dom</div>`)
+     *
+     * @param {string} html - an string which contain a html element
+     * @return {Element | null} html element create.
+     */
+    KamiComponent.prototype.createElement = function (html) {
+        var element = document.createElement('div');
+        element.innerHTML = html;
+        return element.firstElementChild;
+    };
+    /**
      * Convert a String into a boolean
      * @param {String} val - the data to convert in bool
      * @returns {Boolean} the boolean converted
      */
     KamiComponent.prototype.toBoolean = function (val) {
         var a = {
-            'true': true,
-            'false': false
+            true: true,
+            false: false
         };
         return a[val];
     };
@@ -441,27 +477,27 @@ var KamiComponent = /** @class */ (function (_super) {
      * @returns {Component} this
      */
     KamiComponent.prototype.setUrlParam = function (param, value) {
-        //boolean to check if a update url is needed
+        // boolean to check if a update url is needed
         var newUrl = false;
-        if (value.toString() != '') {
-            //check if the param already exist
-            this.getUrlParam(param) ?
-                //update the param
-                this.url.searchParams.set(param, value) :
-                //add the param
-                this.url.searchParams.append(param, value);
-            //update url is needed
+        if (value.toString() !== '') {
+            // check if the param already exist
+            this.getUrlParam(param)
+                ? // update the param
+                    this.url.searchParams.set(param, value)
+                : // add the param
+                    this.url.searchParams.append(param, value);
+            // update url is needed
             newUrl = true;
         }
-        //check if value param is empty
-        if (value.toString() == '' && this.getUrlParam(param) && !newUrl) {
-            //delete a param
+        // check if value param is empty
+        if (value.toString() === '' && this.getUrlParam(param) && !newUrl) {
+            // delete a param
             this.url.searchParams.delete(param);
-            //update url is needed
+            // update url is needed
             newUrl = true;
         }
-        if (newUrl == true) {
-            //update the browser url
+        if (newUrl === true) {
+            // update the browser url
             window.history.pushState({}, '', this.url.toString());
         }
         return this;

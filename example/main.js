@@ -10,22 +10,37 @@ window.onload = function(){
             return 'counter-exemple';
         }
 
+        get add(){
+            return this.wrapper.querySelector('#add');
+        }
+
+        get remove(){
+            return this.wrapper.querySelector('#remove');
+        }
+
+        get counter(){
+            return this.wrapper.querySelector('.counter');
+        }
+
         setProperties()
         {
             this.props = this.observe({
-                counter: 1
+                counter: parseInt(this.getUrlParam('counter'), 10) || 1
             })
         }
 
         initEventListener()
         {
-            this.wrapper.querySelector('#add').addEventListener('click',()=>{
-                this.props.counter ++;
-            })
+            this.add.addEventListener('click',()=>{ this.updateCounter(1) })
+            this.remove.addEventListener('click',()=>{ this.updateCounter(-1) })
+            this.counter.append(this.createElement(`<div class="counter__text">kami-counter</div>`));
+        }
 
-            this.wrapper.querySelector('#remove').addEventListener('click',()=>{
-                this.props.counter --;
-            })
+        updateCounter(to)
+        {
+            this.props.counter = this.props.counter + to;
+            this.setUrlParam('counter',this.props.counter);
+            return this;
         }
 
         renderHtml()
