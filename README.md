@@ -3,6 +3,12 @@
 A simple abstract class to create web compenent.
 This lib is a simple helper to create web component.
 
+* [Getting Started](#getting-started)
+    * [ES6](#es6)
+    * [UMD](#umd)
+* [Life Hook](#life-hook)
+* [Contribute](#contribute)
+
 ## Getting Started
 
 >Into the getting started, you will see the code of a counter component.
