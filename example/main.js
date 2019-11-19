@@ -25,15 +25,22 @@ window.onload = function(){
         setProperties()
         {
             this.props = this.observe({
-                counter: 1
+                counter: parseInt(this.getUrlParam('counter'), 10) || 1
             })
         }
 
         initEventListener()
         {
-            this.add.addEventListener('click',()=>{ this.props.counter ++; })
-            this.remove.addEventListener('click',()=>{ this.props.counter --; })
+            this.add.addEventListener('click',()=>{ this.updateCounter(1) })
+            this.remove.addEventListener('click',()=>{ this.updateCounter(-1) })
             this.counter.append(this.createElement(`<div class="counter__text">kami-counter</div>`));
+        }
+
+        updateCounter(to)
+        {
+            this.props.counter = this.props.counter + to;
+            this.setUrlParam('counter',this.props.counter);
+            return this;
         }
 
         renderHtml()
