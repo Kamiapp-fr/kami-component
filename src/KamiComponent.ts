@@ -185,10 +185,13 @@ abstract class KamiComponent extends HTMLElement {
    */
   render(): this {
     // reload dom structure
-    this.wrapper.innerHTML = this.renderHtml()
+    this.wrapper.innerHTML = this.renderHtml();
 
     // reload style
-    this.styleScope.textContent = this.renderStyle()
+    this.styleScope.textContent = this.renderStyle();
+
+    // bind attribute to all element in the wrapper
+    this.bindAttributes(this.wrapper);
 
     return this
   }
@@ -228,6 +231,28 @@ abstract class KamiComponent extends HTMLElement {
     }
 
     return a[val]
+  }
+
+  protected bindAttributes(html: HTMLElement): void {
+    html.querySelectorAll('*').forEach((el: Element) => {
+      Array.from(el.attributes).forEach((attr: Attr) => {
+        if(attr.nodeName.startsWith('bind:')){
+          this.addBindListener(el,attr)
+        }
+      })
+    })
+  }
+
+  protected addBindListener(html: Element,attr: Attr): void {
+    const type: string = attr.nodeName.split(':')[1];
+    if (attr.nodeValue) {
+      const event = (this as {[key: string]: any} )[attr.nodeValue];
+      if (typeof event === 'function') {
+        html.addEventListener(type,event.bind(this))
+      } else {
+        throw new TypeError(`${attr.nodeValue} is not a function !`)
+      }
+    }
   }
 
   /**

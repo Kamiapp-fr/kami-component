@@ -43,13 +43,18 @@ window.onload = function(){
             return this;
         }
 
+        test()
+        {
+            console.log('ok')
+        }
+
         renderHtml()
         {
             return `
                 <div class="counter">
                     <button class="counter__btn" id="add">+</button>
                     <button class="counter__btn" id="remove">-</button>
-                    <div class="counter__text" id="counter">${this.props.counter}</div>
+                    <div bind:click="test" class="counter__text" id="counter">${this.props.counter}</div>
                 </div>
             `;        
         }

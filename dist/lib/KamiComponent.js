@@ -136,6 +136,8 @@ var KamiComponent = /** @class */ (function (_super) {
         this.wrapper.innerHTML = this.renderHtml();
         // reload style
         this.styleScope.textContent = this.renderStyle();
+        // bind attribute to all element in the wrapper
+        this.bindAttributes(this.wrapper);
         return this;
     };
     /**
@@ -170,6 +172,28 @@ var KamiComponent = /** @class */ (function (_super) {
             false: false
         };
         return a[val];
+    };
+    KamiComponent.prototype.bindAttributes = function (html) {
+        var _this = this;
+        html.querySelectorAll('*').forEach(function (el) {
+            Array.from(el.attributes).forEach(function (attr) {
+                if (attr.nodeName.startsWith('bind:')) {
+                    _this.addBindListener(el, attr);
+                }
+            });
+        });
+    };
+    KamiComponent.prototype.addBindListener = function (html, attr) {
+        var type = attr.nodeName.split(':')[1];
+        if (attr.nodeValue) {
+            var event_1 = this[attr.nodeValue];
+            if (typeof event_1 === 'function') {
+                html.addEventListener(type, event_1.bind(this));
+            }
+            else {
+                throw new TypeError(attr.nodeValue + " is not a function !");
+            }
+        }
     };
     /**
      * Get a param form the url.
