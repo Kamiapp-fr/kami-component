@@ -10,14 +10,6 @@ window.onload = function(){
             return 'counter-exemple';
         }
 
-        get add(){
-            return this.wrapper.querySelector('#add');
-        }
-
-        get remove(){
-            return this.wrapper.querySelector('#remove');
-        }
-
         get counter(){
             return this.wrapper.querySelector('.counter');
         }
@@ -31,30 +23,23 @@ window.onload = function(){
 
         initEventListener()
         {
-            this.add.addEventListener('click',()=>{ this.updateCounter(1) })
-            this.remove.addEventListener('click',()=>{ this.updateCounter(-1) })
             this.counter.append(this.createElement(`<div class="counter__text">kami-counter</div>`));
         }
 
         updateCounter(to)
         {
-            this.props.counter = this.props.counter + to;
+            this.props.counter = this.props.counter + parseInt(to);
             this.setUrlParam('counter',this.props.counter);
             return this;
-        }
-
-        test()
-        {
-            console.log('ok')
         }
 
         renderHtml()
         {
             return `
                 <div class="counter">
-                    <button class="counter__btn" id="add">+</button>
-                    <button class="counter__btn" id="remove">-</button>
-                    <div bind:click="test" class="counter__text" id="counter">${this.props.counter}</div>
+                    <button bind:click="updateCounter(1)" class="counter__btn" id="add">+</button>
+                    <button bind:click="updateCounter(-1)" class="counter__btn" id="remove">-</button>
+                    <div class="counter__text" id="counter">${this.props.counter}</div>
                 </div>
             `;        
         }

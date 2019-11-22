@@ -111,6 +111,8 @@ declare abstract class KamiComponent extends HTMLElement {
     toBoolean(val: any): boolean;
     protected bindAttributes(html: HTMLElement): void;
     protected addBindListener(html: Element, attr: Attr): void;
+    protected parseParams(str: string): string[] | null;
+    protected parseFunctionName(str: string): string;
     /**
      * Get a param form the url.
      * @param {String} param - the param name

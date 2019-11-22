@@ -483,14 +483,26 @@
         KamiComponent.prototype.addBindListener = function (html, attr) {
             var type = attr.nodeName.split(':')[1];
             if (attr.nodeValue) {
-                var event_1 = this[attr.nodeValue];
+                var functionName = this.parseFunctionName(attr.nodeValue);
+                var params_1 = this.parseParams(attr.nodeValue);
+                var event_1 = this[functionName].bind(this);
                 if (typeof event_1 === 'function') {
-                    html.addEventListener(type, event_1.bind(this));
+                    html.addEventListener(type, function (e) {
+                        params_1 ? event_1.apply(void 0, params_1) : event_1();
+                    });
                 }
                 else {
                     throw new TypeError(attr.nodeValue + " is not a function !");
                 }
             }
+        };
+        KamiComponent.prototype.parseParams = function (str) {
+            var args = /\(\s*([^)]+?)\s*\)/.exec(str);
+            return args && args[1] ?
+                args[1].split(/\s*,\s*/) : null;
+        };
+        KamiComponent.prototype.parseFunctionName = function (str) {
+            return str.split('(')[0];
         };
         /**
          * Get a param form the url.

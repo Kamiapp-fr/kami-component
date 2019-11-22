@@ -246,13 +246,27 @@ abstract class KamiComponent extends HTMLElement {
   protected addBindListener(html: Element,attr: Attr): void {
     const type: string = attr.nodeName.split(':')[1];
     if (attr.nodeValue) {
-      const event = (this as {[key: string]: any} )[attr.nodeValue];
+      const functionName: string = this.parseFunctionName(attr.nodeValue)
+      const params = this.parseParams(attr.nodeValue);
+      const event = (this as {[key: string]: any} )[functionName].bind(this);
       if (typeof event === 'function') {
-        html.addEventListener(type,event.bind(this))
+        html.addEventListener(type,(e)=>{
+          params ? event(...params) : event();
+        })
       } else {
         throw new TypeError(`${attr.nodeValue} is not a function !`)
       }
     }
+  }
+
+  protected parseParams(str: string): string[] | null{
+    const args = /\(\s*([^)]+?)\s*\)/.exec(str);
+    return args && args[1] ?
+      args[1].split(/\s*,\s*/) : null;
+  }
+
+  protected parseFunctionName(str: string) {
+    return str.split('(')[0];
   }
 
   /**
