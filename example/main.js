@@ -33,11 +33,17 @@ window.onload = function(){
             return this;
         }
 
+        displayAlert(warning){
+            if(parseInt(this.props.counter) > parseInt(warning) ){
+                alert(this.props.counter);
+            }
+        }
+
         renderHtml()
         {
             return `
                 <div class="counter">
-                    <button bind:click="updateCounter(1)" class="counter__btn" id="add">+</button>
+                    <button bind:click="updateCounter(1); displayAlert(10);" class="counter__btn" id="add">+</button>
                     <button bind:click="updateCounter(-1)" class="counter__btn" id="remove">-</button>
                     <div class="counter__text" id="counter">${this.props.counter}</div>
                 </div>

@@ -237,24 +237,32 @@ abstract class KamiComponent extends HTMLElement {
     html.querySelectorAll('*').forEach((el: Element) => {
       Array.from(el.attributes).forEach((attr: Attr) => {
         if(attr.nodeName.startsWith('bind:')){
-          this.addBindListener(el,attr)
+          this.addBindsListener(el,attr)
         }
       })
     })
   }
 
-  protected addBindListener(html: Element,attr: Attr): void {
-    const type: string = attr.nodeName.split(':')[1];
+  protected addBindsListener(html: Element,attr: Attr): void {
     if (attr.nodeValue) {
-      const functionName: string = this.parseFunctionName(attr.nodeValue)
-      const params = this.parseParams(attr.nodeValue);
+      const type: string = attr.nodeName.split(':')[1];
+      attr.nodeValue!.split(';').forEach(functionToCall => {
+        this.bindListener(html, functionToCall.replace(/ /g,''), type);
+      })
+    }
+  }
+
+  protected bindListener(html: Element, functionToCall: string, type: string){
+    if (functionToCall) {
+      const functionName: string = this.parseFunctionName(functionToCall);
+      const params = this.parseParams(functionToCall);
       const event = (this as {[key: string]: any} )[functionName].bind(this);
       if (typeof event === 'function') {
         html.addEventListener(type,(e)=>{
           params ? event(...params) : event();
         })
       } else {
-        throw new TypeError(`${attr.nodeValue} is not a function !`)
+        throw new TypeError(`${functionToCall} is not a function !`)
       }
     }
   }

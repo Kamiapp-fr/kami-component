@@ -178,16 +178,24 @@ var KamiComponent = /** @class */ (function (_super) {
         html.querySelectorAll('*').forEach(function (el) {
             Array.from(el.attributes).forEach(function (attr) {
                 if (attr.nodeName.startsWith('bind:')) {
-                    _this.addBindListener(el, attr);
+                    _this.addBindsListener(el, attr);
                 }
             });
         });
     };
-    KamiComponent.prototype.addBindListener = function (html, attr) {
-        var type = attr.nodeName.split(':')[1];
+    KamiComponent.prototype.addBindsListener = function (html, attr) {
+        var _this = this;
         if (attr.nodeValue) {
-            var functionName = this.parseFunctionName(attr.nodeValue);
-            var params_1 = this.parseParams(attr.nodeValue);
+            var type_1 = attr.nodeName.split(':')[1];
+            attr.nodeValue.split(';').forEach(function (functionToCall) {
+                _this.bindListener(html, functionToCall.replace(/ /g, ''), type_1);
+            });
+        }
+    };
+    KamiComponent.prototype.bindListener = function (html, functionToCall, type) {
+        if (functionToCall) {
+            var functionName = this.parseFunctionName(functionToCall);
+            var params_1 = this.parseParams(functionToCall);
             var event_1 = this[functionName].bind(this);
             if (typeof event_1 === 'function') {
                 html.addEventListener(type, function (e) {
@@ -195,7 +203,7 @@ var KamiComponent = /** @class */ (function (_super) {
                 });
             }
             else {
-                throw new TypeError(attr.nodeValue + " is not a function !");
+                throw new TypeError(functionToCall + " is not a function !");
             }
         }
     };
