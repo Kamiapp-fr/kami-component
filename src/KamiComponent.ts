@@ -284,19 +284,17 @@ abstract class KamiComponent extends HTMLElement {
    */
   protected bindListener(html: Element, functionToCall: string, type: Event){
     if (functionToCall) {
-      // parse function name.
+      // parse function.
       const functionName: string = this.parseFunctionName(functionToCall);
-      
-      // parse params.
-      const params = this.parseParams(functionToCall);
+      const params: string[] | null = this.parseParams(functionToCall);
       
       // get the function to call.
       const event = (this as {[key: string]: any} )[functionName].bind(this);
       
       // add listener only if event is a function.
       if (typeof event === 'function') {
-        html.addEventListener(type.type,(e)=>{
-          params ? event(...params) : event();
+        html.addEventListener(type.type,(e: Event)=>{
+          params ? event(...params, e) : event(e);
         })
       } else {
         throw new TypeError(`${functionToCall} is not a function !`)

@@ -517,16 +517,15 @@
          */
         KamiComponent.prototype.bindListener = function (html, functionToCall, type) {
             if (functionToCall) {
-                // parse function name.
+                // parse function.
                 var functionName = this.parseFunctionName(functionToCall);
-                // parse params.
                 var params_1 = this.parseParams(functionToCall);
                 // get the function to call.
                 var event_1 = this[functionName].bind(this);
                 // add listener only if event is a function.
                 if (typeof event_1 === 'function') {
                     html.addEventListener(type.type, function (e) {
-                        params_1 ? event_1.apply(void 0, params_1) : event_1();
+                        params_1 ? event_1.apply(void 0, params_1.concat([e])) : event_1(e);
                     });
                 }
                 else {
