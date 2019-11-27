@@ -464,30 +464,60 @@ var KamiComponent = /** @class */ (function (_super) {
         };
         return a[val];
     };
+    /**
+     * This method will parse all element into the main HTMLelement.
+     * if an element have an attribute which begin by "bind:" it will call the *addBindsListener()* method
+     * with the element and the attribute in params.
+     * else nothing happens.
+     * @param {HTMLElement} html - parent element
+     * @return {void}
+     */
     KamiComponent.prototype.bindAttributes = function (html) {
         var _this = this;
+        // parse all child element
         html.querySelectorAll('*').forEach(function (el) {
+            // parse all attributes. 
             Array.from(el.attributes).forEach(function (attr) {
+                // add listeners only if the attr begin by bind:
                 if (attr.nodeName.startsWith('bind:')) {
                     _this.addBindsListener(el, attr);
                 }
             });
         });
     };
+    /**
+     * Parse all functions in the attr params and call the *bindListener* for each function.
+     * @param {Element} html - element which will add listener
+     * @param {Attr} attr - attr to parse
+     * @return {void}
+     */
     KamiComponent.prototype.addBindsListener = function (html, attr) {
         var _this = this;
         if (attr.nodeValue) {
+            // parse the type of the listener
             var type_1 = attr.nodeName.split(':')[1];
+            // parse the function to call from the attr nodeValue
             attr.nodeValue.split(';').forEach(function (functionToCall) {
                 _this.bindListener(html, functionToCall.replace(/ /g, ''), type_1);
             });
         }
     };
+    /**
+     * Parse the function name to get params and add listener to the Element.
+     * @param {Element} html - element which will add listener
+     * @param {string} functionToCall - name of the function to call
+     * @param {string} type - type of listener
+     * @return {void}
+     */
     KamiComponent.prototype.bindListener = function (html, functionToCall, type) {
         if (functionToCall) {
+            // parse function name.
             var functionName = this.parseFunctionName(functionToCall);
+            // parse params.
             var params_1 = this.parseParams(functionToCall);
+            // get the function to call.
             var event_1 = this[functionName].bind(this);
+            // add listener only if event is a function.
             if (typeof event_1 === 'function') {
                 html.addEventListener(type, function (e) {
                     params_1 ? event_1.apply(void 0, params_1) : event_1();
@@ -498,11 +528,32 @@ var KamiComponent = /** @class */ (function (_super) {
             }
         }
     };
+    /**
+     * Get all params from a string function.
+     * @param {string} str - function name with param in string
+     * @return {string[]|null} all params in the function
+     *
+     * @example
+     * this.parseParams('test') // return null
+     * this.parseParams('test()') // return null
+     * this.parseParams('test(10)') // return ['10']
+     * this.parseParams('test(10,12)') // return ['10','12']
+     */
     KamiComponent.prototype.parseParams = function (str) {
         var args = /\(\s*([^)]+?)\s*\)/.exec(str);
         return args && args[1] ?
             args[1].split(/\s*,\s*/) : null;
     };
+    /**
+     * Get function name.
+     * @param {string} str - function name with param in string
+     * @returns {string} function name
+     *
+     * @example
+     * this.parseFunctionName('test') // return 'test'
+     * this.parseFunctionName('test()') // return 'test'
+     * this.parseFunctionName('test(10)') // return 'test'
+     */
     KamiComponent.prototype.parseFunctionName = function (str) {
         return str.split('(')[0];
     };

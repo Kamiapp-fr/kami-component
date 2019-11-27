@@ -109,10 +109,52 @@ declare abstract class KamiComponent extends HTMLElement {
      * @returns {Boolean} the boolean converted
      */
     toBoolean(val: any): boolean;
+    /**
+     * This method will parse all element into the main HTMLelement.
+     * if an element have an attribute which begin by "bind:" it will call the *addBindsListener()* method
+     * with the element and the attribute in params.
+     * else nothing happens.
+     * @param {HTMLElement} html - parent element
+     * @return {void}
+     */
     protected bindAttributes(html: HTMLElement): void;
+    /**
+     * Parse all functions in the attr params and call the *bindListener* for each function.
+     * @param {Element} html - element which will add listener
+     * @param {Attr} attr - attr to parse
+     * @return {void}
+     */
     protected addBindsListener(html: Element, attr: Attr): void;
+    /**
+     * Parse the function name to get params and add listener to the Element.
+     * @param {Element} html - element which will add listener
+     * @param {string} functionToCall - name of the function to call
+     * @param {string} type - type of listener
+     * @return {void}
+     */
     protected bindListener(html: Element, functionToCall: string, type: string): void;
+    /**
+     * Get all params from a string function.
+     * @param {string} str - function name with param in string
+     * @return {string[]|null} all params in the function
+     *
+     * @example
+     * this.parseParams('test') // return null
+     * this.parseParams('test()') // return null
+     * this.parseParams('test(10)') // return ['10']
+     * this.parseParams('test(10,12)') // return ['10','12']
+     */
     protected parseParams(str: string): string[] | null;
+    /**
+     * Get function name.
+     * @param {string} str - function name with param in string
+     * @returns {string} function name
+     *
+     * @example
+     * this.parseFunctionName('test') // return 'test'
+     * this.parseFunctionName('test()') // return 'test'
+     * this.parseFunctionName('test(10)') // return 'test'
+     */
     protected parseFunctionName(str: string): string;
     /**
      * Get a param form the url.
