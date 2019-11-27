@@ -266,7 +266,7 @@ abstract class KamiComponent extends HTMLElement {
     if (attr.nodeValue) {
       
       // parse the type of the listener
-      const type: string = attr.nodeName.split(':')[1];
+      const type: Event = new Event(attr.nodeName.split(':')[1]) ;
 
       // parse the function to call from the attr nodeValue
       attr.nodeValue!.split(';').forEach(functionToCall => {
@@ -279,10 +279,10 @@ abstract class KamiComponent extends HTMLElement {
    * Parse the function name to get params and add listener to the Element.
    * @param {Element} html - element which will add listener
    * @param {string} functionToCall - name of the function to call
-   * @param {string} type - type of listener 
+   * @param {Event} type - type of listener 
    * @return {void}
    */
-  protected bindListener(html: Element, functionToCall: string, type: string){
+  protected bindListener(html: Element, functionToCall: string, type: Event){
     if (functionToCall) {
       // parse function name.
       const functionName: string = this.parseFunctionName(functionToCall);
@@ -295,7 +295,7 @@ abstract class KamiComponent extends HTMLElement {
       
       // add listener only if event is a function.
       if (typeof event === 'function') {
-        html.addEventListener(type,(e)=>{
+        html.addEventListener(type.type,(e)=>{
           params ? event(...params) : event();
         })
       } else {

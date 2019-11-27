@@ -129,10 +129,10 @@ declare abstract class KamiComponent extends HTMLElement {
      * Parse the function name to get params and add listener to the Element.
      * @param {Element} html - element which will add listener
      * @param {string} functionToCall - name of the function to call
-     * @param {string} type - type of listener
+     * @param {Event} type - type of listener
      * @return {void}
      */
-    protected bindListener(html: Element, functionToCall: string, type: string): void;
+    protected bindListener(html: Element, functionToCall: string, type: Event): void;
     /**
      * Get all params from a string function.
      * @param {string} str - function name with param in string

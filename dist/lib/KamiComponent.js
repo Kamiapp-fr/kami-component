@@ -204,7 +204,7 @@ var KamiComponent = /** @class */ (function (_super) {
         var _this = this;
         if (attr.nodeValue) {
             // parse the type of the listener
-            var type_1 = attr.nodeName.split(':')[1];
+            var type_1 = new Event(attr.nodeName.split(':')[1]);
             // parse the function to call from the attr nodeValue
             attr.nodeValue.split(';').forEach(function (functionToCall) {
                 _this.bindListener(html, functionToCall.replace(/ /g, ''), type_1);
@@ -215,7 +215,7 @@ var KamiComponent = /** @class */ (function (_super) {
      * Parse the function name to get params and add listener to the Element.
      * @param {Element} html - element which will add listener
      * @param {string} functionToCall - name of the function to call
-     * @param {string} type - type of listener
+     * @param {Event} type - type of listener
      * @return {void}
      */
     KamiComponent.prototype.bindListener = function (html, functionToCall, type) {
@@ -228,7 +228,7 @@ var KamiComponent = /** @class */ (function (_super) {
             var event_1 = this[functionName].bind(this);
             // add listener only if event is a function.
             if (typeof event_1 === 'function') {
-                html.addEventListener(type, function (e) {
+                html.addEventListener(type.type, function (e) {
                     params_1 ? event_1.apply(void 0, params_1) : event_1();
                 });
             }
