@@ -183,6 +183,8 @@ Event emit is always add in last params when the listener is fire.
 
 If you don't use the [template binding](#template-binding) you can init your event listener into the `initEventListener()` method. 
 
+> ⚠️ If you use reactive props without [template binding](#template-binding) you should add your listener into the `initEventListener()` method. Because when the template is re-render, listener are also remove. That's why the `initEventListener()` method is call when a reactive props is update.
+
 ## Contribute
 
 We would love you for the contribution to ``kami-component`` project, check the ``CONTRIBUTING`` file for more info.
