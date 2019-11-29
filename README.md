@@ -11,6 +11,7 @@ This lib is a simple helper to create web component.
   * [Render Html](#render-html)
   * [Render Style](#render-style)
   * [Template Binding](#template-binding)
+  * [Event Listener](#event-listener)
 * [Contribute](#contribute)
 
 ## Getting Started
@@ -118,7 +119,11 @@ and the *html* part :
 
 ### Render Html
 
+The `renderHtml()` method will generate your template component. For this just override the `renderHtml()`. This method should return a **string**.
+
 ### Render Style
+
+Same as `renderHtml()`, the `renderStyle()` method will generate your component style. For this just override the `renderStyle()`. This method should return a **string**.
 
 ### Template binding
 
@@ -173,6 +178,10 @@ updateCounter(to, event) {
 Event emit is always add in last params when the listener is fire.
 
 > To see more example, go into the **example folder** of this repository.
+
+### Event Listener
+
+If you don't use the [template binding](#template-binding) you can init your event listener into the `initEventListener()` method. 
 
 ## Contribute
 
