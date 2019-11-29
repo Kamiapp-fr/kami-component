@@ -7,6 +7,9 @@ This lib is a simple helper to create web component.
     * [ES6](#es6)
     * [UMD](#umd)
 * [Life Hook](#life-hook)
+  * [Set Properties](#set-properties)
+  * [Render Html](#render-html)
+  * [Render Style](#render-style)
   * [Template Binding](#template-binding)
 * [Contribute](#contribute)
 
@@ -28,7 +31,7 @@ npm install --save kami-component
 
 After just import it and extend your class with this.
 
-> See **counter example**.
+> See **[counter example](https://github.com/Kamiapp-fr/kami-component/tree/master/example/counter)**.
 
 
 To declare you component, just import your component into your *index.js* file and use the *customElements.define()* methode. See the example bellow.
@@ -66,6 +69,56 @@ See the example bellow.
 <p align="center">
   <img  src="https://lh5.googleusercontent.com/hlDJbaYrB0ZVRyz5oXOzfFLtpJ4BX8vkO8kwTnnxkL8iCycQy_X8JHOlNVzs9xqGXctI409Wc5ehKMnmMzlr=w2560-h1262-rw">
 </p>
+
+### Set Properties
+
+The `setProperties()` is the first method called. It's here you will get props from your component. You need to override this method to init your props.
+
+This is an example :
+```js
+//drawing.js
+setProperties() {
+  this.color = this.getAttribute('color') || 'black';
+}
+```
+and the *html* part : 
+```html
+<drawing-exemple color="green"></drawing-exemple>
+```
+
+You can also use reactive props. To use this you need to use `this.props` property and the `observe()` method. With this when a data from `this.props` is update, the component will re-render the template part.
+
+This is a reactive example :
+```js
+// you need to observe your attribute to use reactive
+static get observedAttributes() {return ['counter']; }
+
+// init reactive props
+setProperties() {
+  this.props = this.observe({
+    counter: parseInt(this.getAtribute('counter')) | 1
+  })
+}
+
+// after just display your data like this.
+renderHtml() {
+  return `
+    <div class="counter">
+      ${this.props.counter}
+    </div>
+  `;        
+}
+
+```
+and the *html* part : 
+```html
+<drawing-exemple counter="0"></drawing-exemple>
+```
+> See [drawing example](https://github.com/Kamiapp-fr/kami-component/tree/master/example/drawing) for simple props and [counter example](https://github.com/Kamiapp-fr/kami-component/tree/master/example/counter) for reactive props. 
+
+### Render Html
+
+### Render Style
 
 ### Template binding
 
@@ -120,7 +173,6 @@ updateCounter(to, event) {
 Event emit is always add in last params when the listener is fire.
 
 > To see more example, go into the **example folder** of this repository.
-
 
 ## Contribute
 
