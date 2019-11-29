@@ -64,7 +64,7 @@ See the example bellow.
 > This is a diagram for the kami-component life cycle.
 
 <p align="center">
-  <img  src="https://raw.githubusercontent.com/Kamiapp-fr/kami-component/master/.github/schema.png">
+  <img  src="https://lh5.googleusercontent.com/hlDJbaYrB0ZVRyz5oXOzfFLtpJ4BX8vkO8kwTnnxkL8iCycQy_X8JHOlNVzs9xqGXctI409Wc5ehKMnmMzlr=w2560-h1262-rw">
 </p>
 
 ### Template binding
