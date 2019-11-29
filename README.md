@@ -7,6 +7,7 @@ This lib is a simple helper to create web component.
     * [ES6](#es6)
     * [UMD](#umd)
 * [Life Hook](#life-hook)
+  * [Template Binding](#template-binding)
 * [Contribute](#contribute)
 
 ## Getting Started
@@ -65,6 +66,60 @@ See the example bellow.
 <p align="center">
   <img  src="https://raw.githubusercontent.com/Kamiapp-fr/kami-component/master/.github/lifecycle.png">
 </p>
+
+### Template binding
+
+With KamiComponent you can directly bind your event listener into your template.
+To work you juste need to add into a dom the `bind:<type>` attribute. You can replace the type part by every listener type you want like *click* or *mouseover*. 
+
+This is an example :
+
+```js
+/**
+ * ... more code
+ */
+
+// update the current counter number
+updateCounter(to) {
+  this.props.counter = this.props.counter + parseInt(to);
+  this.setUrlParam('counter',this.props.counter);
+  return this;
+}
+
+// Listener add directly from the template. 
+renderHtml() {
+  return `
+    <div class="counter">
+      <button 
+        id="add"
+        class="counter__btn" 
+        bind:click="updateCounter(1);" 
+      >+</button>
+      <button 
+        id="remove"
+        class="counter__btn"
+        bind:click="updateCounter(-1)"  
+      >-</button>
+      <div class="counter__text" id="counter">${this.props.counter}</div>
+    </div>
+  `;        
+}
+```
+
+In this example when you *click* on a button the `updateCounter()` will be call. This is due at this attribute `bind:click="updateCounter(-1)"` which will add the click event listener.
+
+If you want get the event emit you just need to update your method like this :
+```js
+
+updateCounter(to, event) {
+  event.preventDefault() // this is just an example
+}
+
+```
+
+Event emit is always add in last params when the listener is fire.
+
+> To see more example, go into the **example folder** of this repository.
 
 
 ## Contribute
