@@ -19,7 +19,6 @@
         const updateInput = document.querySelector('#update');
         const counter = document.querySelector('#counter');
         updateInput.addEventListener('change', () => {
-            console.log(updateInput.value)
             counter.setAttribute('counter', updateInput.value);
         });
         customElements.define(Counter.tag, Counter);

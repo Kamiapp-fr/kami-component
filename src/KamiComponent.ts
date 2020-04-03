@@ -128,6 +128,27 @@ abstract class KamiComponent extends HTMLElement {
   }
 
   /**
+   * Adds the specified prop to ``this.props``
+   * @param name - prop name
+   * @param value - value of the prop
+   */
+  protected setProp(name: string, value: any): void {
+    if (name && value && typeof this.props === 'object') {
+      this.props[name] = value;
+    }
+  }
+
+  /**
+   * Returns the value of the prop with the specified name, of `this.props`.
+   * @param name - prop name
+   */
+  protected getProp(name: string): any {
+    if (this.props && typeof this.props === 'object') {
+      return this.props[name];
+    }
+  }
+
+  /**
    * This methode it use be the child methode to pass
    * all the properties which need the parent to work
    */

@@ -32,13 +32,13 @@ class Counter extends KamiComponent
 
     updateCounter(to)
     {
-        this.props.counter = parseInt(this.props.counter) + parseInt(to);
+        this.setProp('counter', parseInt(this.props.counter) + parseInt(to));
         this.setUrlParam('counter',this.props.counter);
         return this;
     }
 
     displayAlert(warning){
-        if(parseInt(this.props.counter) > parseInt(warning) ){
+        if (parseInt(this.props.counter) > parseInt(warning)) {
             alert(this.props.counter);
         }
     }
@@ -55,7 +55,7 @@ class Counter extends KamiComponent
             <div class="counter">
                 <button bind:click="updateCounter(1); displayAlert(10);" class="counter__btn" id="add">+</button>
                 <button bind:click="updateCounter(-1)" class="counter__btn" id="remove">-</button>
-                <div class="counter__text" id="counter">${this.props.counter}</div>
+                <div class="counter__text" id="counter">${this.getProp('counter')}</div>
             </div>
         `;        
     }
