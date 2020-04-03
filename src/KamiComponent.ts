@@ -1,10 +1,9 @@
 // Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
 // import "core-js/fn/array.find"
-import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter'
-import '@webcomponents/webcomponentsjs/webcomponents-bundle'
+import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
 abstract class KamiComponent extends HTMLElement {
-
   /**
    * You should override this getter to return your own tag name for your component.
    * @example
@@ -12,27 +11,27 @@ abstract class KamiComponent extends HTMLElement {
    * static get tag(){
    *    return 'counter-example';
    * }
-   * 
+   *
    * @example
    * // index.html
    * customElements.define(Counter.tag, Counter);
-   * 
+   *
    * @static
    * @property {string} tag - tag name
    */
   static get tag() {
-    throw new Error('Your component should have a tag !')
+    throw new Error('Your component should have a tag !');
   }
 
   /**
    * @property {URL} url - an URL instance
    */
-  protected url: URL
+  protected url: URL;
 
   /**
    * @property {ShadowRoot} shadow - main shadow root
    */
-  protected shadow: ShadowRoot
+  protected shadow: ShadowRoot;
 
   /**
    * Use this property to query your component.
@@ -42,68 +41,65 @@ abstract class KamiComponent extends HTMLElement {
    * }
    * @property {HTMLDivElement} wrapper - main div wrapper
    */
-  protected wrapper: HTMLDivElement
+  protected wrapper: HTMLDivElement;
 
   /**
    * @property {HTMLStyleElement} styleScope - main style dom
    */
-  protected styleScope: HTMLStyleElement
+  protected styleScope: HTMLStyleElement;
 
   /**
    * If this component is observable this property is set as true.
-   * @property {Boolean} isObservable - observable state 
+   * @property {Boolean} isObservable - observable state
    */
-  protected isObservable: Boolean
+  protected isObservable: Boolean;
 
   /**
    * @property {any} props
    */
-  protected props: any
+  protected props: any;
 
-  constructor() {
+  constructor({ syncProp = false }) {
     // Always call super first in constructor
-    super()
+    super();
 
-    this.isObservable = false
+    this.isObservable = false;
 
-    /**
-     * @property {URL} url - the current browser url
-     */
-    this.url = new URL(window.location.href)
+    this.url = new URL(window.location.href);
 
     // init props from children
-    this.setProperties()
+    this.setProperties();
 
     /**
      * @property {HTMLElement} shadow - the shadow root of your component
      */
-    this.shadow = this.attachShadow({ mode: 'open' })
+    this.shadow = this.attachShadow({ mode: 'open' });
 
     /**
      * Use this dom to get children.
      * Call the querySelector directly from this property.
      * @property {HTMLDivElement} wrapper - main dom of your component
      */
-    this.wrapper = document.createElement('div')
+    this.wrapper = document.createElement('div');
 
     /**
      * @property {HTMLStyleElement}  styleScope - style dom
      */
-    this.styleScope = document.createElement('style')
+    this.styleScope = document.createElement('style');
 
     // set the type for the style dom
     // tslint:disable-next-line: deprecation
-    this.styleScope.type = 'text/css'
+    this.styleScope.type = 'text/css';
 
     // generate the style and dom of your component
-    this.render()
+    this.render();
 
     // append your component to the shadow root
     // display the component
-    this.initComponent()
+    this.initComponent();
 
     // init all your event listener
-    this.initEventListener()
+    this.initEventListener();
   }
 
   /**
@@ -114,25 +110,25 @@ abstract class KamiComponent extends HTMLElement {
     /**
      * Init your listener here.
      */
-  } 
+  }
 
   /**
    * This methode it use be the child methode to pass
    * all the properties which need the parent to work
    */
-  abstract setProperties(): void
+  abstract setProperties(): void;
 
   /**
    * This methode it use be the child methode to pass
    * the html template for the shadows root
    */
-  abstract renderHtml(): string
+  abstract renderHtml(): string;
 
   /**
    * This methode it use be the child methode to pass
    * the style template for the shadows root
    */
-  abstract renderStyle(): string
+  abstract renderStyle(): string;
 
   /**
    * This methode update your attribute set in the props object.
@@ -142,7 +138,7 @@ abstract class KamiComponent extends HTMLElement {
    */
   attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
     if (this.isObservable) {
-      this.props[name] = newValue
+      this.props[name] = newValue;
     }
   }
 
@@ -154,28 +150,28 @@ abstract class KamiComponent extends HTMLElement {
    * @returns {ProxyConstructor}
    */
   observe(target: Object): ProxyConstructor {
-    this.isObservable = true
+    this.isObservable = true;
 
     // create a proxy to observe your props
     return new Proxy(target, {
       // just return your props
       get: (obj: any, prop: string) => {
-        return obj[prop]
+        return obj[prop];
       },
       // rerender your component and his listener
       set: (obj, prop, value) => {
         // set the props value
-        obj[prop] = value
+        obj[prop] = value;
 
         // rerender the component
-        this.render()
+        this.render();
 
         // reload listener
-        this.initEventListener()
+        this.initEventListener();
 
-        return true
+        return true;
       }
-    })
+    });
   }
 
   /**
@@ -193,15 +189,15 @@ abstract class KamiComponent extends HTMLElement {
     // bind attribute to all element in the wrapper
     this.bindAttributes(this.wrapper);
 
-    return this
+    return this;
   }
 
   /**
    * Init the web component
    */
   initComponent(): void {
-    this.shadow.appendChild(this.styleScope)
-    this.shadow.appendChild(this.wrapper)
+    this.shadow.appendChild(this.styleScope);
+    this.shadow.appendChild(this.wrapper);
   }
 
   /**
@@ -209,9 +205,9 @@ abstract class KamiComponent extends HTMLElement {
    * There are a litte diff with this. You should pass directly the template of you element.
    * @example
    * this.createElement(`<div id="new" class="test">your dom</div>`)
-   * 
+   *
    * @param {string} html - an string which contain a html element
-   * @return {Element | null} html element create. 
+   * @return {Element | null} html element create.
    */
   protected createElement(html: string): Element | null {
     let element: Element = document.createElement('div') as Element;
@@ -228,9 +224,9 @@ abstract class KamiComponent extends HTMLElement {
     let a: any = {
       true: true,
       false: false
-    }
+    };
 
-    return a[val]
+    return a[val];
   }
 
   /**
@@ -244,16 +240,14 @@ abstract class KamiComponent extends HTMLElement {
   protected bindAttributes(html: HTMLElement): void {
     // parse all child element
     html.querySelectorAll('*').forEach((el: Element) => {
-
-      // parse all attributes. 
+      // parse all attributes.
       Array.from(el.attributes).forEach((attr: Attr) => {
-      
         // add listeners only if the attr begin by bind:
-        if(attr.nodeName.startsWith('bind:')){
-          this.addBindsListener(el,attr)
+        if (attr.nodeName.startsWith('bind:')) {
+          this.addBindsListener(el, attr);
         }
-      })
-    })
+      });
+    });
   }
 
   /**
@@ -262,16 +256,15 @@ abstract class KamiComponent extends HTMLElement {
    * @param {Attr} attr - attr to parse
    * @return {void}
    */
-  protected addBindsListener(html: Element,attr: Attr): void {
+  protected addBindsListener(html: Element, attr: Attr): void {
     if (attr.nodeValue) {
-      
       // parse the type of the listener
-      const type: Event = new Event(attr.nodeName.split(':')[1]) ;
+      const type: Event = new Event(attr.nodeName.split(':')[1]);
 
       // parse the function to call from the attr nodeValue
-      attr.nodeValue!.split(';').forEach(functionToCall => {
-        this.bindListener(html, functionToCall.replace(/ /g,''), type);
-      })
+      attr.nodeValue.split(';').forEach(functionToCall => {
+        this.bindListener(html, functionToCall.replace(/ /g, ''), type);
+      });
     }
   }
 
@@ -279,51 +272,50 @@ abstract class KamiComponent extends HTMLElement {
    * Parse the function name to get params and add listener to the Element.
    * @param {Element} html - element which will add listener
    * @param {string} functionToCall - name of the function to call
-   * @param {Event} type - type of listener 
+   * @param {Event} type - type of listener
    * @return {void}
    */
-  protected bindListener(html: Element, functionToCall: string, type: Event){
+  protected bindListener(html: Element, functionToCall: string, type: Event) {
     if (functionToCall) {
       // parse function.
       const functionName: string = this.parseFunctionName(functionToCall);
       const params: string[] | null = this.parseParams(functionToCall);
-      
+
       // get the function to call.
-      const event = (this as {[key: string]: any} )[functionName].bind(this);
-      
+      const event = (this as { [key: string]: any })[functionName].bind(this);
+
       // add listener only if event is a function.
       if (typeof event === 'function') {
-        html.addEventListener(type.type,(e: Event)=>{
+        html.addEventListener(type.type, (e: Event) => {
           params ? event(...params, e) : event(e);
-        })
+        });
       } else {
-        throw new TypeError(`${functionToCall} is not a function !`)
+        throw new TypeError(`${functionToCall} is not a function !`);
       }
     }
   }
 
   /**
    * Get all params from a string function.
-   * @param {string} str - function name with param in string 
+   * @param {string} str - function name with param in string
    * @return {string[]|null} all params in the function
-   * 
-   * @example 
+   *
+   * @example
    * this.parseParams('test') // return null
    * this.parseParams('test()') // return null
    * this.parseParams('test(10)') // return ['10']
    * this.parseParams('test(10,12)') // return ['10','12']
    */
-  protected parseParams(str: string): string[] | null{
+  protected parseParams(str: string): string[] | null {
     const args = /\(\s*([^)]+?)\s*\)/.exec(str);
-    return args && args[1] ?
-      args[1].split(/\s*,\s*/) : null;
+    return args && args[1] ? args[1].split(/\s*,\s*/) : null;
   }
 
   /**
    * Get function name.
-   * @param {string} str - function name with param in string 
+   * @param {string} str - function name with param in string
    * @returns {string} function name
-   * 
+   *
    * @example
    * this.parseFunctionName('test') // return 'test'
    * this.parseFunctionName('test()') // return 'test'
@@ -338,7 +330,7 @@ abstract class KamiComponent extends HTMLElement {
    * @param {String} param - the param name
    */
   getUrlParam(param: string): string | null {
-    return this.url.searchParams.get(param)
+    return this.url.searchParams.get(param);
   }
 
   /**
@@ -350,7 +342,7 @@ abstract class KamiComponent extends HTMLElement {
    */
   setUrlParam(param: string, value: string): this {
     // boolean to check if a update url is needed
-    let newUrl = false
+    let newUrl = false;
 
     if (value.toString() !== '') {
       // check if the param already exist
@@ -358,28 +350,28 @@ abstract class KamiComponent extends HTMLElement {
         ? // update the param
           this.url.searchParams.set(param, value)
         : // add the param
-          this.url.searchParams.append(param, value)
+          this.url.searchParams.append(param, value);
 
       // update url is needed
-      newUrl = true
+      newUrl = true;
     }
 
     // check if value param is empty
     if (value.toString() === '' && this.getUrlParam(param) && !newUrl) {
       // delete a param
-      this.url.searchParams.delete(param)
+      this.url.searchParams.delete(param);
 
       // update url is needed
-      newUrl = true
+      newUrl = true;
     }
 
     if (newUrl === true) {
       // update the browser url
-      window.history.pushState({}, '', this.url.toString())
+      window.history.pushState({}, '', this.url.toString());
     }
 
-    return this
+    return this;
   }
 }
 
-export default KamiComponent
+export default KamiComponent;
