@@ -1,6 +1,6 @@
 {
   "name": "kami-component",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "keywords": [],
   "main": "dist/KamiComponent.umd.js",
@@ -80,7 +80,7 @@
     }
   },
   "prettier": {
-    "semi": false,
+    "semi": true,
     "singleQuote": true
   },
   "commitlint": {

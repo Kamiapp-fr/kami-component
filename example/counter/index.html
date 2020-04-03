@@ -7,8 +7,21 @@
     <title>Example</title>
 </head>
 <body>
-    <counter-exemple></counter-exemple>
+    <div>Set counter at :</div>
+    <input id="update" type="number">
+    <counter-exemple id="counter"></counter-exemple>
 </body>
+
 <script src="../../dist/KamiComponent.umd.js"></script>
 <script src="main.js"></script>
+<script>
+    window.onload = () => {
+        const updateInput = document.querySelector('#update');
+        const counter = document.querySelector('#counter');
+        updateInput.addEventListener('change', () => {
+            counter.setAttribute('counter', updateInput.value);
+        });
+        customElements.define(Counter.tag, Counter);
+    }
+</script>
 </html>
