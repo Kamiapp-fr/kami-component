@@ -50,18 +50,26 @@ abstract class KamiComponent extends HTMLElement {
 
   /**
    * If this component is observable this property is set as true.
-   * @property {Boolean} isObservable - observable state
+   * @property {boolean} isObservable - observable state
    */
-  protected isObservable: Boolean;
+  protected isObservable: boolean;
+
+  /**
+   * If this property is set at true. All props will be sync to an attribute.
+   * @property syncProps
+   */
+  private syncProps: boolean;
 
   /**
    * @property {any} props
    */
   protected props: any;
 
-  constructor({ syncProp = false }) {
+  constructor({ syncProps = false } = {}) {
     // Always call super first in constructor
     super();
+
+    this.syncProps = syncProps;
 
     this.isObservable = false;
 
@@ -107,9 +115,16 @@ abstract class KamiComponent extends HTMLElement {
    * This method will be call if you use the observe() method.
    */
   protected initEventListener(): void {
-    /**
-     * Init your listener here.
-     */
+    return void 0;
+  }
+
+  /**
+   * Call when a prop is update. Only call if the ``isObservable`` property is at ``true``
+   * @param name - prop name
+   * @param value - value of prop
+   */
+  protected propChangedCallback(name: string, value: any): void {
+    return void 0;
   }
 
   /**
@@ -137,7 +152,7 @@ abstract class KamiComponent extends HTMLElement {
    * @param {String} newValue - the new value
    */
   attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
-    if (this.isObservable) {
+    if (this.isObservable && oldValue !== newValue) {
       this.props[name] = newValue;
     }
   }
@@ -163,11 +178,17 @@ abstract class KamiComponent extends HTMLElement {
         // set the props value
         obj[prop] = value;
 
+        if (this.syncProps) {
+          this.setAttribute(prop as string, value);
+        }
+
         // rerender the component
         this.render();
 
         // reload listener
         this.initEventListener();
+
+        this.propChangedCallback(prop as string, value);
 
         return true;
       }
