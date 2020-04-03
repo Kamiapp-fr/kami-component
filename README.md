@@ -68,7 +68,7 @@ See the example bellow.
 > This is a diagram for the kami-component life cycle.
 
 <p align="center">
-  <img  src="https://lh5.googleusercontent.com/hlDJbaYrB0ZVRyz5oXOzfFLtpJ4BX8vkO8kwTnnxkL8iCycQy_X8JHOlNVzs9xqGXctI409Wc5ehKMnmMzlr=w2560-h1262-rw">
+  <img  src=".github/hooks.png?raw=true">
 </p>
 
 ### Set Properties
