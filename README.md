@@ -4,8 +4,8 @@ A simple abstract class to create web compenent.
 This lib is a simple helper to create web component.
 
 * [Getting Started](#getting-started)
-    * [ES6](#es6)
-    * [UMD](#umd)
+    * [NPM](#npm)
+    * [CDN](#cdn)
 * [Life Hook](#life-hook)
   * [Set Properties](#set-properties)
   * [Render Html](#render-html)
@@ -22,7 +22,7 @@ This lib is a simple helper to create web component.
   <img  src="https://emilienleroy.fr/assets/counter.gif">
 </p>
 
-### ES6
+### NPM
 
 Install the lib from *npm*.
 
@@ -46,9 +46,9 @@ window.customElements.define('counter-example', Counter);
 ```
 
 
-### UMD
+### CDN
 
-In first you should get the lib from the */dist* folder. 
+You can get kami-component via this cdn `https://cdn.jsdelivr.net/npm/kami-component`. 
 After add this file into your html with a script dom.
 And just extend your component with this class.
 At the end of your js you need to declare your component with the *customElements.define()* methode.
@@ -59,7 +59,7 @@ See the example bellow.
 <body>
     <counter-exemple></counter-exemple>
 </body>
-<script src="../dist/KamiComponent.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kami-component"></script>
 <script src="main.js"></script>
 ```
 
