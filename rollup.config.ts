@@ -1,19 +1,13 @@
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import sourceMaps from 'rollup-plugin-sourcemaps'
-import typescript from 'rollup-plugin-typescript2'
-import json from 'rollup-plugin-json'
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
+import sourceMaps from 'rollup-plugin-sourcemaps';
+import typescript from 'rollup-plugin-typescript2';
+import json from 'rollup-plugin-json';
 
-const pkg = require('./package.json')
+const pkg = require('./package.json');
 
-const libraryName = 'KamiComponent'
-
-export default {
-  input: `src/${libraryName}.ts`,
-  output: [
-    { file: pkg.main, name: libraryName, format: 'umd', sourcemap: true },
-    { file: pkg.module, format: 'es', sourcemap: true },
-  ],
+const libraryName = 'KamiComponent';
+const baseConfig = {
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
   external: [],
   watch: {
@@ -35,3 +29,18 @@ export default {
     sourceMaps(),
   ],
 }
+
+export default [{
+  input: `src/${libraryName}.ts`,
+  output: [
+    { file: pkg.main, name: libraryName, format: 'umd', sourcemap: true },
+    { file: pkg.module, format: 'es', sourcemap: true },
+  ],
+  ...baseConfig
+}, {
+  input: 'src/decorators.ts',
+  output: [
+    { file: 'dist/decorators/index.js', format: 'es', sourcemap: true, exports: 'named' },
+  ],
+  ...baseConfig,
+}]
