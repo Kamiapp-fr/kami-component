@@ -1,4 +1,3 @@
-
 class Counter extends KamiComponent
 {
     constructor()

@@ -1,130 +1,26 @@
 {
   "name": "kami-component",
-  "version": "0.0.6",
-  "description": "",
-  "keywords": [],
-  "main": "dist/KamiComponent.umd.js",
-  "module": "dist/KamiComponent.es5.js",
-  "typings": "dist/types/KamiComponent.d.ts",
+  "private": true,
+  "version": "0.0.0",
   "files": [
     "dist"
   ],
-  "author": "Leroy Emilien <eleroy@savoy-international.com>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/EmilienLeroy/kami-component"
-  },
-  "license": "MIT",
-  "engines": {
-    "node": ">=6.0.0"
+  "main": "./dist/kami-component.umd.js",
+  "module": "./dist/kami-component.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/kami-component.es.js",
+      "require": "./dist/kami-component.umd.js"
+    }
   },
   "scripts": {
-    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
-    "start": "rollup -c rollup.config.ts -w",
-    "test": "jest --coverage --env=jsdom",
-    "test:watch": "jest --coverage --watch --env=jsdom",
-    "test:prod": "npm run lint && npm run test -- --no-cache",
-    "deploy-docs": "ts-node tools/gh-pages-publish",
-    "report-coverage": "cat ./coverage/lcov.info | coveralls",
-    "commit": "git-cz",
-    "semantic-release": "semantic-release",
-    "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
-    "precommit": "lint-staged",
-    "travis-deploy-once": "travis-deploy-once"
-  },
-  "lint-staged": {
-    "{src,test}/**/*.ts": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
-    }
-  },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "ts-jest"
-    },
-    "setupFiles": [
-      "<rootDir>/node_modules/babel-polyfill/dist/polyfill.js",
-      "<rootDir>/node_modules/mutationobserver-shim/dist/mutationobserver.min.js"
-    ],
-    "testEnvironment": "node",
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 0,
-        "functions": 0,
-        "lines": 0,
-        "statements": 0
-      }
-    },
-    "collectCoverageFrom": [
-      "src/*.{js,ts}"
-    ],
-    "globals": {
-      "window": true
-    }
-  },
-  "prettier": {
-    "semi": true,
-    "singleQuote": true
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.1.2",
-    "@commitlint/config-conventional": "^7.1.2",
-    "@types/jest": "^23.3.2",
-    "@types/node": "^10.11.0",
-    "@webcomponents/webcomponentsjs": "^2.1.3",
-    "colors": "^1.3.2",
-    "commitizen": "^3.0.0",
-    "coveralls": "^3.0.2",
-    "cross-env": "^5.2.0",
-    "cz-conventional-changelog": "^2.1.0",
-    "document-register-element": "^1.13.2",
-    "husky": "^1.0.1",
-    "jest": "^24.8.0",
-    "jest-config": "^24.8.0",
-    "lint-staged": "^8.0.0",
-    "lodash.camelcase": "^4.3.0",
-    "mutationobserver-shim": "^0.3.3",
-    "prettier": "^1.14.3",
-    "prompt": "^1.0.0",
-    "replace-in-file": "^3.4.2",
-    "rimraf": "^2.6.2",
-    "rollup": "^0.67.0",
-    "rollup-plugin-commonjs": "^9.1.8",
-    "rollup-plugin-json": "^3.1.0",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-typescript2": "^0.18.0",
-    "semantic-release": "^15.9.16",
-    "shelljs": "^0.8.3",
-    "travis-deploy-once": "^5.0.9",
-    "ts-jest": "^24.0.2",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
-    "tslint-config-standard": "^8.0.1",
-    "typedoc": "^0.12.0",
-    "typescript": "^3.0.3"
+    "@webcomponents/webcomponentsjs": "^2.6.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0"
   }
 }

@@ -123,9 +123,7 @@ abstract class KamiComponent extends HTMLElement {
    * @param name - prop name
    * @param value - value of prop
    */
-  protected propChangedCallback(name: string, value: any): void {
-    return void 0;
-  }
+  protected propChangedCallback?: (name: string, value: any) => void;
 
   /**
    * Adds the specified prop to ``this.props``
@@ -209,7 +207,9 @@ abstract class KamiComponent extends HTMLElement {
         // reload listener
         this.initEventListener();
 
-        this.propChangedCallback(prop as string, value);
+        if (this.propChangedCallback) {
+          this.propChangedCallback(prop as string, value);
+        }
 
         return true;
       }
