@@ -1,3 +1,5 @@
+> **Deprecated:** This component is deprecated and will not receive any updates. Please use [kami-collection](https://github.com/Kamiapp-fr/kami-collection) instead.
+
 # `kami-component`
 
 A simple abstract class to create web compenent.
